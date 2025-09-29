@@ -1,14 +1,18 @@
 services:
   - type: web
     name: n8n
-    env: docker
-    image: n8nio/n8n:latest
-    plan: free
-    healthCheckPath: /healthz
+    env: node
+    plan: standard
+    buildCommand: |
+      npm install --legacy-peer-deps
+      npm run build
+    startCommand: npm run start
     envVars:
       - key: N8N_PORT
-        value: 8080
+        value: 5678
       - key: N8N_HOST
         value: 0.0.0.0
       - key: NODE_ENV
         value: production
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=4096
